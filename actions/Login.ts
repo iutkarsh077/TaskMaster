@@ -2,6 +2,7 @@
 import prisma from "../prisma";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
 interface LoginUserDetail{
@@ -10,6 +11,7 @@ interface LoginUserDetail{
 }
 
 export async function LoginUser(data: LoginUserDetail) {
+    revalidatePath("/login")
     if (!data || !data.password) {
         return { msg: "fields are empty", status: false };
     }
